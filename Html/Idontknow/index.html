@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function FQ () {
+    var previous;
+
+    $("select[name=test]").focus(function () {
+        // Store the current value on focus, before it changes
+        previous = this.value;
+    }).change(function() {
+        // Do soomething with the previous value after the change
+        document.getElementById("log").innerHTML = "<b>Previous: </b>"+previous;
+        
+        previous = this.value;
+    });
+};
+
+$(function(){
+	FQ();
+});
+
+	</script>
+</head>
+<body>
+	<select name="test">
+    <option value="stack">Stack</option>
+    <option value="overflow">Overflow</option>
+    <option value="my">My</option>
+    <option value="question">Question</option>
+</select>
+<div id="log"></div>
+</body>
+</html>

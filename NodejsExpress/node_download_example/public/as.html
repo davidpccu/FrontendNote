@@ -1,0 +1,30 @@
+
+<!doctype html>
+<html ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>男丁格爾's 脫殼玩 - AngularJS</title>
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>	
+	<script src='./bin/controller.js'></script>
+</head>
+<body>
+	<div class="well span6" style="margin-top:20px;">
+		<label>Name:</label>
+		<input type="text" ng-model="name" placeholder="Enter a name here">
+		<hr>
+		<h1>Hello {{ name || "AngularJS" }}!!</h1>
+		<a href="./download/a.txt">download a</a>
+    </div> 
+    <div class="well span6" style="margin-top:20px;" ng-controller="ShowHideCtrl">
+		<label>Show?
+			<input type="checkbox" ng-model="checked">
+		</label>
+		<label>English?
+			<input type="checkbox" ng-model="eng" ng-true-value="abgne.tw" ng-false-value="男丁格爾">
+		</label>
+		<hr>
+		<h2 ng-show="checked">{{ eng }}</h2>
+	</div>
+</body>
+</html>

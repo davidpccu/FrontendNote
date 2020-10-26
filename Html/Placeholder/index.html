@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		//http://www.webhek.com/input-placeholder
+		function SetFocus(GetId)
+		{
+			var mytxt = document.getElementById(GetId);
+			if (mytxt.value == "目的地" || mytxt.value == "回程點") {
+				mytxt.value = '';
+				mytxt.style.color = "black";
+			}
+			else {
+				mytxt.style.color = "black";
+			}
+		}
+
+		function OutFous(GetId) {
+			var mytxt = document.getElementById(GetId);
+
+			switch (GetId) {
+				case "txtDestination":
+					if (mytxt.value == "目的地" || mytxt.value == "") {
+						mytxt.value = "目的地"
+						mytxt.style.color = "#CCC";
+					}
+					break;
+				case "txtReturnpoint":
+					if (mytxt.value == "回程點" || mytxt.value == "") {
+						mytxt.value = "回程點"
+						mytxt.style.color = "#CCC";
+					}
+					break;
+			}
+		}
+
+		window.onload = function()
+		{
+			OutFous('txtDestination');
+			OutFous('txtReturnpoint');
+		}
+	</script>	
+</head>
+<body>
+	<input type="text" id='txtDestination' value="目的地" onfocus="SetFocus(this.id)" onfocusout="OutFous(this.id)" >
+	<input type="text" id='txtReturnpoint' value="回程點" onfocus="SetFocus(this.id)" onfocusout="OutFous(this.id)">
+	
+</body>
+</html>

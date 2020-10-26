@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		// 路線 防呆
+		function Check_Of_DropDownList()
+		{
+			var myDdlLineCode_A = document.getElementById('ddlLineCode');
+			var myDdlLineCode_B = document.getElementById('ddlLineCode2');
+			var myDdlLineCode_C = document.getElementById('ddlLineCode3');
+			var mySpecialDays_A = document.getElementById('chkSpecialDays').getElementsByTagName('input');
+			var mySpecialDays_B = document.getElementById('chkSpecialDays2').getElementsByTagName('input');
+			var mySpecialDays_C = document.getElementById('chkSpecialDays3').getElementsByTagName('input');
+
+			// 一切回歸到最初值
+			if (myDdlLineCode_A.selectedIndex == 0) {
+				for (var i = 0; i < mySpecialDays_A.length; i++) {
+					mySpecialDays_A[i].disabled = true;
+					mySpecialDays_B[i].disabled = true;
+					mySpecialDays_C[i].disabled = true;
+					mySpecialDays_A[i].checked = false;
+					mySpecialDays_B[i].checked = false;
+					mySpecialDays_C[i].checked = false;
+				}
+				myDdlLineCode_B.selectedIndex = 0;
+				myDdlLineCode_C.selectedIndex = 0;
+				document.getElementById('trLine2').style.display = 'none';
+				document.getElementById('trLine3').style.display = 'none';
+				document.getElementById('cmdSelectAll').disabled = true;
+			}
+
+			// 【路線一】判斷有選擇路線的話
+			if (myDdlLineCode_A.selectedIndex != 0) {
+				document.getElementById('cmdSelectAll').disabled = false;
+				// 【路線二】判斷有選擇路線的話
+				if (myDdlLineCode_B.selectedIndex != 0) {
+					// 路線一、三有勾選到的日期, 路線二的日期做disabled
+					for (var j = 0; j < mySpecialDays_B.length; j++) {
+						mySpecialDays_B[j].disabled = (mySpecialDays_A[j].checked || mySpecialDays_C[j].checked) ? true : false;
+					}
+
+					// 【路線三】判斷有選擇到路線的話
+					if (myDdlLineCode_C.selectedIndex != 0) {
+						// 路線一、二有勾選到的日期, 路線三的日期做disabled
+						for (var k = 0; k < mySpecialDays_C.length; k++) {
+							mySpecialDays_C[k].disabled = (mySpecialDays_A[k].checked || mySpecialDays_B[k].checked) ? true : false;
+						}
+					}
+					else {
+						for (var x = 0; x < mySpecialDays_C.length; x++) {
+							mySpecialDays_A[x].disabled = (mySpecialDays_B[x].checked) ? true : false;
+							mySpecialDays_B[x].disabled = (mySpecialDays_A[x].checked) ? true : false;
+							mySpecialDays_C[x].disabled = true;
+							mySpecialDays_C[x].checked = false;
+						}
+					}// 【路線三判斷結束】
+				}
+				else {
+					for (var j = 0; j < mySpecialDays_B.length; j++) {						
+						mySpecialDays_B[j].disabled = true;
+						mySpecialDays_B[j].checked  = false;
+						mySpecialDays_C[j].disabled = true;
+						mySpecialDays_C[j].checked  = false;
+						mySpecialDays_A[j].disabled = (mySpecialDays_B[j].checked == false || mySpecialDays_C[j].checked == false) ? false : true;
+					}
+					myDdlLineCode_C.selectedIndex = 0;
+					document.getElementById('trLine3').style.display = 'none';
+				}//【路線二判斷結束】
+			}//【路線一判斷結束】
+		}
+
+		// 日期不重複勾選的驗證
+		function CheckBox_Not_Repeat(obj)
+		{
+			var myDdlLineCode_B = document.getElementById('ddlLineCode2');
+			var myDdlLineCode_C = document.getElementById('ddlLineCode3');
+			var mySpecialDays_A = document.getElementById('chkSpecialDays').getElementsByTagName('input');
+			var mySpecialDays_B = document.getElementById('chkSpecialDays2').getElementsByTagName('input');
+			var mySpecialDays_C = document.getElementById('chkSpecialDays3').getElementsByTagName('input');
+			var myCount         = 0;
+			var myCount2        = 0;
+
+			// 路線一的Checkbox
+			for (var i = 0; i < mySpecialDays_A.length; i++) {
+				if (mySpecialDays_A[i].checked) {
+					myCount++;
+				}
+
+				if (myDdlLineCode_B.selectedIndex != 0) {
+					mySpecialDays_B[i].disabled = (mySpecialDays_A[i].checked) ? true : (mySpecialDays_A[i].disabled == false) ? false : '';
+				}
+
+				if (myDdlLineCode_C.selectedIndex != 0) {
+					mySpecialDays_C[i].disabled = (mySpecialDays_A[i].checked) ? true : (mySpecialDays_A[i].disabled == false) ? false : '';
+				}
+			}
+
+			// 路線二的Checkbox
+			for (var i = 0; i < mySpecialDays_B.length; i++) {
+				if (mySpecialDays_B[i].checked) {
+					myCount2++;
+					mySpecialDays_A[i].disabled = true;
+				}
+				else if (mySpecialDays_B[i].disabled == false) {
+					mySpecialDays_A[i].disabled = false;
+				}
+
+				if (myDdlLineCode_C.selectedIndex != 0) {
+					mySpecialDays_C[i].disabled = (mySpecialDays_A[i].checked || mySpecialDays_B[i].checked) ? true :
+												  (mySpecialDays_A[i].disabled == false || mySpecialDays_B[i].disabled == false) ? false : '';
+				}
+			}
+
+			// 路線三的Checkbox
+			for (var i = 0; i < mySpecialDays_C.length; i++) {
+				if (mySpecialDays_C[i].checked)  {
+					mySpecialDays_A[i].disabled = true;
+					mySpecialDays_B[i].disabled = true;
+				} 
+				else if (mySpecialDays_C[i].disabled == false)  {
+					mySpecialDays_A[i].disabled = false;
+					mySpecialDays_B[i].disabled = false;
+				}
+			}
+
+
+			if (myCount != 0) {
+				document.getElementById('trLine2').style.display = 'block';
+			}
+			else {
+				myCount2 = 0;
+				document.getElementById('trLine2').style.display = 'none';
+				document.getElementById('trLine3').style.display = 'none';
+				myDdlLineCode_B.options.selectedIndex = 0;
+
+				for (var i = 0; i < mySpecialDays_A.length; i++) {
+					mySpecialDays_A[i].disabled = false;
+				}
+				for (var i = 0; i < mySpecialDays_B.length; i++) {
+					mySpecialDays_B[i].checked = false;
+					mySpecialDays_B[i].disabled = true;
+				}
+			}
+
+			if (myCount2 != 0) {
+				document.getElementById('trLine3').style.display = 'block';
+			}
+			else {
+				document.getElementById('trLine3').style.display = 'none';
+				myDdlLineCode_C.options.selectedIndex = 0;
+
+				for (var i = 0; i < mySpecialDays_C.length; i++) {
+					mySpecialDays_C[i].checked = false;
+					mySpecialDays_C[i].disabled = true;
+
+					if (myDdlLineCode_B.options.selectedIndex != 0) {
+						mySpecialDays_A[i].disabled = (mySpecialDays_B[i].checked) ? true : false;
+						mySpecialDays_B[i].disabled = (mySpecialDays_A[i].checked) ? true : false;
+					}
+				}
+			}
+		}
+
+		//全選/全取消
+		function Select_All()
+		{
+			var myTable = document.getElementById('chkSpecialDays');
+			var myInput = myTable.getElementsByTagName('input');
+			var mySelectAll = document.getElementById('cmdSelectAll');
+			if (mySelectAll.value == '全選')
+			{
+				for (var i = 0; i < myInput.length; i++)
+				{
+					myInput[i].checked = (myInput[i].disabled == false) ? true : false;
+				}
+				mySelectAll.value = "全取消";
+			} 
+			else
+			{
+				for (var i = 0; i < myInput.length; i++)
+				{
+					myInput[i].checked = (myInput[i].disabled = false) ? false : null;
+				}
+				mySelectAll.value = "全選";
+			}
+			CheckBox_Not_Repeat();
+		}
+
+	</script>
+</head>
+<body onload="Check_Of_DropDownList()">
+	<input id="cmdSelectAll" type="button" value="全選" onclick="Select_All()"/>
+	<br/>
+	<select name="ddlLineCode" id="ddlLineCode" style="font-family:courier new;" onchange="Check_Of_DropDownList()">
+		<option value="0">請選擇</option>
+		<option value="1">Volvo</option>
+	</select>
+	<table id="chkSpecialDays" onclick="CheckBox_Not_Repeat(chkSpecialDays.id)">
+		<tbody>
+			<tr>
+				<td><input type="checkbox" value="1">1</td>
+				<td><input type="checkbox" value="2">2</td>
+				<td><input type="checkbox" value="3">3</td>
+				<td><input type="checkbox" value="4">4</td>
+				<td><input type="checkbox" value="5">5</td>
+				<td><input type="checkbox" value="6">6</td>
+				<td><input type="checkbox" value="7">7</td>
+				<td><input type="checkbox" value="8">8</td>
+				<td><input type="checkbox" value="9">9</td>
+				<td><input type="checkbox" value="10">10</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="11">11</td>
+				<td><input type="checkbox" value="12">12</td>
+				<td><input type="checkbox" value="13">13</td>
+				<td><input type="checkbox" value="14">14</td>
+				<td><input type="checkbox" value="15">15</td>
+				<td><input type="checkbox" value="16">16</td>
+				<td><input type="checkbox" value="17">17</td>
+				<td><input type="checkbox" value="18">18</td>
+				<td><input type="checkbox" value="19">19</td>
+				<td><input type="checkbox" value="20">20</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="21">21</td>
+				<td><input type="checkbox" value="22">22</td>
+				<td><input type="checkbox" value="23">23</td>
+				<td><input type="checkbox" value="24">24</td>
+				<td><input type="checkbox" value="25">25</td>
+				<td><input type="checkbox" value="26">26</td>
+				<td><input type="checkbox" value="27">27</td>
+				<td><input type="checkbox" value="28">28</td>
+				<td><input type="checkbox" value="29">29</td>
+				<td><input type="checkbox" value="30">30</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="31">31</td>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+		</tbody>
+	</table>
+<div id="trLine2">
+	<select name="ddlLineCode2" id="ddlLineCode2" style="font-family:courier new;" onchange="Check_Of_DropDownList()">
+		<option value="0">請選擇</option>
+		<option value="1">Volvo</option>
+	</select>
+	<table id="chkSpecialDays2" onclick="CheckBox_Not_Repeat(chkSpecialDays2.id)">
+		<tbody>
+			<tr>
+				<td><input type="checkbox" value="1">1</td>
+				<td><input type="checkbox" value="2">2</td>
+				<td><input type="checkbox" value="3">3</td>
+				<td><input type="checkbox" value="4">4</td>
+				<td><input type="checkbox" value="5">5</td>
+				<td><input type="checkbox" value="6">6</td>
+				<td><input type="checkbox" value="7">7</td>
+				<td><input type="checkbox" value="8">8</td>
+				<td><input type="checkbox" value="9">9</td>
+				<td><input type="checkbox" value="10">10</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="11">11</td>
+				<td><input type="checkbox" value="12">12</td>
+				<td><input type="checkbox" value="13">13</td>
+				<td><input type="checkbox" value="14">14</td>
+				<td><input type="checkbox" value="15">15</td>
+				<td><input type="checkbox" value="16">16</td>
+				<td><input type="checkbox" value="17">17</td>
+				<td><input type="checkbox" value="18">18</td>
+				<td><input type="checkbox" value="19">19</td>
+				<td><input type="checkbox" value="20">20</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="21">21</td>
+				<td><input type="checkbox" value="22">22</td>
+				<td><input type="checkbox" value="23">23</td>
+				<td><input type="checkbox" value="24">24</td>
+				<td><input type="checkbox" value="25">25</td>
+				<td><input type="checkbox" value="26">26</td>
+				<td><input type="checkbox" value="27">27</td>
+				<td><input type="checkbox" value="28">28</td>
+				<td><input type="checkbox" value="29">29</td>
+				<td><input type="checkbox" value="30">30</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="31">31</td>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div id="trLine3">
+	<select name="ddlLineCode3" id="ddlLineCode3" style="font-family:courier new;" onchange="Check_Of_DropDownList()">
+		<option value="0">請選擇</option>
+		<option value="1">Volvo</option>
+	</select>
+	<table id="chkSpecialDays3" onclick="CheckBox_Not_Repeat(chkSpecialDays3.id)">
+		<tbody>
+			<tr>
+				<td><input type="checkbox" value="1">1</td>
+				<td><input type="checkbox" value="2">2</td>
+				<td><input type="checkbox" value="3">3</td>
+				<td><input type="checkbox" value="4">4</td>
+				<td><input type="checkbox" value="5">5</td>
+				<td><input type="checkbox" value="6">6</td>
+				<td><input type="checkbox" value="7">7</td>
+				<td><input type="checkbox" value="8">8</td>
+				<td><input type="checkbox" value="9">9</td>
+				<td><input type="checkbox" value="10">10</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="11">11</td>
+				<td><input type="checkbox" value="12">12</td>
+				<td><input type="checkbox" value="13">13</td>
+				<td><input type="checkbox" value="14">14</td>
+				<td><input type="checkbox" value="15">15</td>
+				<td><input type="checkbox" value="16">16</td>
+				<td><input type="checkbox" value="17">17</td>
+				<td><input type="checkbox" value="18">18</td>
+				<td><input type="checkbox" value="19">19</td>
+				<td><input type="checkbox" value="20">20</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="21">21</td>
+				<td><input type="checkbox" value="22">22</td>
+				<td><input type="checkbox" value="23">23</td>
+				<td><input type="checkbox" value="24">24</td>
+				<td><input type="checkbox" value="25">25</td>
+				<td><input type="checkbox" value="26">26</td>
+				<td><input type="checkbox" value="27">27</td>
+				<td><input type="checkbox" value="28">28</td>
+				<td><input type="checkbox" value="29">29</td>
+				<td><input type="checkbox" value="30">30</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="31">31</td>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+</body>
+</html>

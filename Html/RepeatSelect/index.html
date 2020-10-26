@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"></script>
+
+	<script type='text/javascript'>
+	function BB()
+		{
+			var previous;
+			var objectarr;
+			$(".selectList").click(function () {
+				
+				var a = document.getElementById('ddlQuotationSoruce1');
+				var b = document.getElementById('ddlQuotationSoruce2');
+				var c = document.getElementById('ddlQuotationSoruce3');
+				if (this.id == 'ddlQuotationSoruce1') objectarr = [b, c];
+				if (this.id == 'ddlQuotationSoruce2') objectarr = [a, c];
+				if (this.id == 'ddlQuotationSoruce3') objectarr = [a, b];				
+				
+				previous = this.selectedIndex;
+			}).change(function () {
+				
+				for (var i = 0; i < objectarr.length; i++) {
+					if (objectarr[i].value == this.value) {
+						objectarr[i].selectedIndex = previous;
+					}
+				}
+			});
+		};
+
+
+		$(function () {
+			BB();
+		});
+
+	</script>
+</head>
+<body>
+	<select id='ddlQuotationSoruce1' class="selectList" >
+  		<option value="volvo" selected="true">Volvo</option>
+  		<option value="saab">Saab</option>
+  		<option value="mercedes">Mercedes</option>
+	</select>
+	<select id='ddlQuotationSoruce2' class="selectList" >
+  		<option value="volvo">Volvo</option>
+  		<option value="saab" selected="true">Saab</option>
+  		<option value="mercedes">Mercedes</option>
+	</select>
+	<select id='ddlQuotationSoruce3' class="selectList" >
+  		<option value="volvo">Volvo</option>
+  		<option value="saab">Saab</option>
+  		<option value="mercedes" selected="true">Mercedes</option>
+	</select>	
+</body>
+</html>

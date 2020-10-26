@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link href='css.css' rel='stylesheet' />
+	<script type="text/javascript">
+		window.onload = function(){			
+			var f = document.getElementById('foo');
+			document.addEventListener('click', function(ev){
+    			f.style.left = (ev.clientX-25)+'px';
+    			f.style.top = (ev.clientY-25)+'px';
+			},false);    
+		}
+	</script>
+</head>
+<body>
+	<p>Click anywhere to move the ball</p>
+	<div id='foo'></div>
+</body>
+</html>

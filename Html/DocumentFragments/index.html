@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+	//參考
+	//https://coderwall.com/p/o9ws2g/why-you-should-always-append-dom-elements-using-documentfragments
+
+        window.addEventListener('load', function () {
+            var $div = document.getElementById('div1');
+
+            /**
+            * 1.一般的做法
+            */
+            // var i = 0; while (i < 200) {
+            //     $div.innerHTML += '<li>My list item #' + i + '</li>';
+            //     i++;
+            // }
+
+            /**
+            * 2.這樣子做會更快
+            * 但這方法會一直重新渲染樣式，會影響佈局繪製，其中
+            * 如果是建構高性能的web的程式時應該要非常小心
+            */
+            // var i = 0; while (i < 200) {
+            //     var el = document.createElement('li');
+            //     el.innerText = 'This is my list item number ' + i;
+            //     $div.appendChild(el);
+            //     i++;
+            // }
+
+            /**
+            * 3.比上面兩個都還好的方法
+            */ 
+            var el;
+            var i = 0;
+            var fragment = document.createDocumentFragment();
+
+            while (i < 200) {
+                el = document.createElement('li');
+                el.innerText = 'This is my list item number ' + i;
+                fragment.appendChild(el);
+                i++;
+            }
+
+            $div.appendChild(fragment);
+        });
+    </script>
+</head>
+
+<body>
+    <div id='div1'></div>
+</body>
+
+</html>
